@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'noticias.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -7,6 +8,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _formKey = GlobalKey<FormState>();
+  final feedController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,16 +18,37 @@ class _HomePageState extends State<HomePage> {
         title: Text("Home"),
         automaticallyImplyLeading: false,
       ),
-      body: Center(
-        child: RaisedButton(
-          child: Text("Texto"),
-          onPressed: () {
-            Navigator.pushNamed(
-              context,
-              '/noticias'
-            );
-          },
+      body: Padding(
+        padding: EdgeInsets.all(20),
+        child: Form(
+        key: _formKey,
+        child: Column(
+          children: <Widget>[
+            TextFormField(
+              keyboardType: TextInputType.url,
+              controller: feedController,
+              decoration: InputDecoration(
+                labelText: "Link do RSS"
+              ),
+              validator: (value) {
+                if (value.isEmpty) {
+                  return "Esse campo ta vazio";
+                }
+              },
+            ),
+            RaisedButton(
+              child: Text("Cadastrar"),
+              color: Colors.amber,
+              textColor: Colors.white,
+              onPressed: () {
+                if (_formKey.currentState.validate()) {
+                  print(feedController.text); 
+                }
+              },
+            )
+          ],
         ),
+      ),
       )
     );
   }

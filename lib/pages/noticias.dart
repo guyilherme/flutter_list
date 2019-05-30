@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 
 class NoticiasPage extends StatefulWidget {
-  NoticiasPage({Key key}) : super(key: key);
+  final String feed;
 
-  _NoticiasPageState createState() => _NoticiasPageState();
+  NoticiasPage({Key key, this.feed}) : super(key: key);
+
+  _NoticiasPageState createState() => _NoticiasPageState(this.feed);
 }
 
 class _NoticiasPageState extends State<NoticiasPage> {
+  final String feed;
+
+  _NoticiasPageState(this.feed);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,12 +21,12 @@ class _NoticiasPageState extends State<NoticiasPage> {
       ),
       body: Center(
         child: RaisedButton(
-          child: Text("Texto"),
+          child: Text(this.feed),
           onPressed: () {
-            Navigator.pushNamed(
-              context,
-              '/noticias/page'
-            );
+            // Navigator.pushNamed(
+            //   context,
+            //   '/noticias/page'
+            // );
           },
         ),
       )

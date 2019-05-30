@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pages/home.dart';
 import 'pages/noticias.dart';
-import 'pages/page.dart';
 
 void main() => runApp(MyApp());
 
@@ -19,7 +18,6 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => HomePage(),
         '/noticias': (context) => NoticiasPage(),
-        '/noticias/page': (context) => Page()
       },
     );
   }
