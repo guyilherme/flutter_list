@@ -10,6 +10,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _formKey = GlobalKey<FormState>();
   final feedController = TextEditingController();
+  List feed = [];
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +25,20 @@ class _HomePageState extends State<HomePage> {
         key: _formKey,
         child: Column(
           children: <Widget>[
+            Expanded(
+              child: ListView.builder(
+                itemCount: feed.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(feed[index]),
+                    leading: Icon(Icons.rss_feed),
+                    onTap: () {
+                      print(index.toString());
+                    },
+                  );
+                },
+              ),
+            ),
             TextFormField(
               keyboardType: TextInputType.url,
               controller: feedController,
@@ -42,7 +57,10 @@ class _HomePageState extends State<HomePage> {
               textColor: Colors.white,
               onPressed: () {
                 if (_formKey.currentState.validate()) {
-                  print(feedController.text); 
+                  setState(() {
+                    feed.add(feedController.text);
+                    feedController.text = "";
+                  });
                 }
               },
             )
