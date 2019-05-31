@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lista/pages/noticias.dart';
 import '../data/bd.dart';
 
 class HomePage extends StatefulWidget {
@@ -46,7 +47,12 @@ class _HomePageState extends State<HomePage> {
                     title: Text(feed[index]),
                     leading: Icon(Icons.rss_feed),
                     onTap: () {
-                      print(index.toString());
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NoticiasPage(feed: feed[index],)
+                        )
+                      );
                     },
                   );
                 },
