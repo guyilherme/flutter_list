@@ -12,7 +12,7 @@ class SaveLocal {
     File file = File(dir.path + "/feeds.json");
 
     if (!file.existsSync()) {
-      save(feedList);
+      await file.writeAsString(json.encode([]));
     }
 
     return file;
@@ -29,6 +29,6 @@ class SaveLocal {
   save(data) async {
     final File file = await fileFeed;
 
-    file.writeAsString(json.encode(data));
+    return file.writeAsString(json.encode(data));
   }
 }

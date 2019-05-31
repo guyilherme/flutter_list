@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'noticias.dart';
+import '../data/bd.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -12,8 +12,21 @@ class _HomePageState extends State<HomePage> {
   final feedController = TextEditingController();
   List feed = [];
 
+  void initState() {
+    final SaveLocal salvarDados = new SaveLocal(feedList: feed);
+    salvarDados.read().then((data) {
+      setState(() {
+        feed = data;
+      }); 
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final SaveLocal salvarDados = new SaveLocal(feedList: feed);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Home"),
@@ -60,6 +73,8 @@ class _HomePageState extends State<HomePage> {
                   setState(() {
                     feed.add(feedController.text);
                     feedController.text = "";
+
+                    salvarDados.save(feed);
                   });
                 }
               },
