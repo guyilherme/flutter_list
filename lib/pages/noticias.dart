@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/get_data.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NoticiasPage extends StatefulWidget {
   final String feed;
@@ -24,6 +25,7 @@ class _NoticiasPageState extends State<NoticiasPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Noticias"),
+        leading: Icon(Icons.rss_feed),
       ),
       body: FutureBuilder(
           future: noticias,
@@ -38,6 +40,12 @@ class _NoticiasPageState extends State<NoticiasPage> {
                 }
                 return listNoticias(snapshot.data);
             }
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.pop(context);
           },
         ),
     );
@@ -68,18 +76,56 @@ class _NoticiasPageState extends State<NoticiasPage> {
           child: ListView.builder(
             itemCount: noticias.length,
             itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                title: Text(noticias[index]['title']),
-                subtitle: Text(noticias[index]['link']),
-                leading: Icon(Icons.open_in_browser),
-                onTap: () {
-                  print(noticias[index]);
-                },
+              return Card(
+                color: Colors.white,
+                child: InkWell(
+                  onTap: () {
+                    _launchURL(url: noticias[index]['link']);
+                  },
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 180,
+                        child: Stack(
+                          children: <Widget>[
+                            Positioned.fill(
+                              child: Image.network(
+                                noticias[index]['image'],
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 16,
+                              left: 16,
+                              right: 16,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                alignment: Alignment.centerLeft,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.open_in_browser),
+                        title: Text(noticias[index]['title']),
+                      ),
+                    ],
+                  ),
+                )
               );
             },
           ),
         )
       ],
     );
+  }
+
+  _launchURL({String url}) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

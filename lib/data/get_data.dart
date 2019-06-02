@@ -9,6 +9,7 @@ class GetData {
     http.Client client = http.Client();
     dynamic data = await client.get(url);
     xml.XmlDocument rss = xml.parse(data.body);
+    print(rss);
 
     List noticias = [];
 
