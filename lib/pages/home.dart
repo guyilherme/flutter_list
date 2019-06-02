@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lista/pages/noticias.dart';
 import '../data/bd.dart';
+import 'package:achievement_view/achievement_view.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -54,6 +55,12 @@ class _HomePageState extends State<HomePage> {
                         )
                       );
                     },
+                    onLongPress: () {
+                      show(context, "Removeu " + feed[index].toString());
+                      setState(() {
+                        feed.removeAt(index);
+                      });
+                    },
                   );
                 },
               ),
@@ -90,5 +97,19 @@ class _HomePageState extends State<HomePage> {
       ),
       )
     );
+  }
+
+  void show(BuildContext context, String texto){
+    AchievementView(
+        context,
+        title: "Deletado",
+        subTitle: texto,
+        isCircle: true,
+        icon: Icon(Icons.delete, color: Colors.white,),
+        alignment: Alignment.topCenter,
+        listener: (status){
+          print(status);
+        }
+    )..show();
   }
 }
